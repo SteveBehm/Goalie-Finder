@@ -12,16 +12,16 @@ insert into "users" (
   'chrisosgood30',
   'jhwgugwfkfku',
   '2022-01-10',
-  'images/chris osgood in net.jpg',
+  '/images/chris-osgood.jpeg',
   'Detroit, MI',
   'Goalie for either',
-  'Available to play goalie'
+  'Unavailable to play goalie'
 ), (
   2,
   'patrickroy30',
   'jhwgugwfkfkua',
   '2022-01-12',
-  'images/Patrick Roy goalie.jpg',
+  '/images/patrick-roy.jpeg',
   'Denver, CO',
   'Goalie for either',
   'Available to play goalie'
@@ -30,7 +30,34 @@ insert into "users" (
   'guylafleur1',
   'jhwgugwfkfkub',
   '2022-01-14',
-  'images/Guy Lafleur photo.jpg',
+  '/images/guy-lafleur.jpeg',
+  'Montreal, QC',
+  'Ice player',
+  'Looking for goalie'
+), (
+  4,
+  'ChrisOsgood30',
+  'jhwgugwfkfkua',
+  '2022-01-10',
+  '/images/chris-osgood.jpeg',
+  'Detroit, MI',
+  'Goalie for either',
+  'Unavailable to play goalie'
+), (
+  5,
+  'PatrickRoy30',
+  'jhwgugwfkfkuab',
+  '2022-01-12',
+  '/images/patrick-roy.jpeg',
+  'Denver, CO',
+  'Goalie for either',
+  'Available to play goalie'
+), (
+  6,
+  'GuyLafleur1',
+  'jhwgugwfkfkubc',
+  '2022-01-14',
+  '/images/guy-lafleur.jpeg',
   'Montreal, QC',
   'Ice player',
   'Looking for goalie'

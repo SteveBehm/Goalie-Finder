@@ -1,0 +1,53 @@
+body {
+  background-color: #333;
+}
+
+.dark-color {
+  background-color: #292929;
+}
+
+.logo {
+  font-size: 2rem;
+  color: white;
+  text-shadow:
+    -1px -1px 0 red,
+    1px -1px 0 red,
+    -1px 1px 0 red,
+    1px 1px 0 red;
+}
+
+.profile-pic {
+  height: 50vh;
+  object-fit: cover;
+}
+
+.list-header {
+  color: white;
+}
+
+ul {
+  list-style: none;
+}
+
+.position,
+.location {
+  color: #8d8a8a;
+  font-size: 16px;
+}
+
+.username {
+  color: #343a40;
+}
+
+.card-img {
+  height: 30vh;
+  object-fit: cover;
+}
+
+.success {
+  color: green;
+}
+
+.danger {
+  color: red;
+}
