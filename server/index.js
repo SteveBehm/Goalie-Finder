@@ -28,15 +28,6 @@ app.get('/api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// post a new users data to the database
-app.post('/api/users', (req, res, next) => {
-  // const sql = `
-  //   insert into "users" ("username", "joinedAt", "profilePicUrl, "location", "position", "availability")
-  //   vales ($1, (now()), $3, $4, $5, $6)
-  //   returning *
-  //   `;
-});
-
 // get all of the conversations data
 app.get('/api/conversations', (req, res, next) => {
   const sql = `
