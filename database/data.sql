@@ -1,6 +1,7 @@
 insert into "users" (
   "userId",
   "username",
+  "name",
   "hashedPassword",
   "joinedAt",
   "profilePicUrl",
@@ -10,6 +11,7 @@ insert into "users" (
 ) values (
   1,
   'chrisosgood30',
+  'Chris Osgood',
   'jhwgugwfkfku',
   '2022-01-10',
   '/images/chris-osgood.jpeg',
@@ -19,6 +21,7 @@ insert into "users" (
 ), (
   2,
   'patrickroy30',
+  'Patrick Roy',
   'jhwgugwfkfkua',
   '2022-01-12',
   '/images/patrick-roy.jpeg',
@@ -28,6 +31,7 @@ insert into "users" (
 ), (
   3,
   'guylafleur1',
+  'Guy Lafleur',
   'jhwgugwfkfkub',
   '2022-01-14',
   '/images/guy-lafleur.jpeg',
@@ -37,6 +41,7 @@ insert into "users" (
 ), (
   4,
   'ChrisOsgood30',
+  'Christopher Osgood',
   'jhwgugwfkfkua',
   '2022-01-10',
   '/images/chris-osgood.jpeg',
@@ -46,6 +51,7 @@ insert into "users" (
 ), (
   5,
   'PatrickRoy30',
+  'Pat Roy',
   'jhwgugwfkfkuab',
   '2022-01-12',
   '/images/patrick-roy.jpeg',
@@ -55,6 +61,7 @@ insert into "users" (
 ), (
   6,
   'GuyLafleur1',
+  'Guyski Lafleur',
   'jhwgugwfkfkubc',
   '2022-01-14',
   '/images/guy-lafleur.jpeg',

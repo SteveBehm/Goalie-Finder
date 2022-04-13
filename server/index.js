@@ -15,7 +15,7 @@ app.use(jsonMiddleware);
 app.get('/api/users', (req, res, next) => {
   const sql = `
     select "userId",
-           "username",
+           "name",
            "joinedAt",
            "profilePicUrl",
            "location",
@@ -48,10 +48,10 @@ app.post('/api/users/:userId', (req, res, next) => {
 
   const sql = `
     update "users"
-      set "username" = $2
-          "position" = $3
-          "location" = $4
-      "availability" = $5
+       set "name" = $2
+           "position" = $3
+           "location" = $4
+           "availability" = $5
      where "userId" = $1
     `;
 

@@ -55,14 +55,14 @@ export default class Home extends React.Component {
 */
 
 function User(props) {
-  const { username, profilePicUrl, location, position, availability } = props.user;
+  const { name, profilePicUrl, location, position, availability } = props.user;
 
   return (
   <Card className='mb-5' style={{ width: '25rem' }}>
   <Card.Img src={profilePicUrl} />
   <Card.Body>
         <div className='d-flex justify-content-between'>
-          <Card.Title className='username mb-1'>{username}</Card.Title>
+          <Card.Title className='name mb-1'>{name}</Card.Title>
           <a href="#" className="chat pe-2"><i className="fa fa-paper-plane text-dark"></i></a>
     </div>
     <Card.Title className='position mb-1'>{position}</Card.Title>
