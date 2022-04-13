@@ -43,6 +43,27 @@ app.get('/api/conversations', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/users/:userId', (req, res, next) => {
+  const { userId } = req.params;
+
+  const sql = `
+    update "users"
+      set "username" = $2
+          "position" = $3
+          "location" = $4
+      "availability" = $5
+     where "userId" = $1
+    `;
+
+  const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err))
+  ;
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
