@@ -13,7 +13,7 @@ export default class Home extends React.Component {
 
   // get all users and set the state property of users to an array of users
   componentDidMount() {
-    fetch('/api/users')
+    fetch('/api/users/')
       .then(res => res.json())
       .then(users => this.setState({
         users
@@ -28,10 +28,12 @@ export default class Home extends React.Component {
   render() {
     return (
       <>
-      <div className='container'>
-          <h2 className='d-flex justify-content-center list-header mt-3'>All Users</h2>
-        </div>
       <Container>
+        <Row>
+            <div>
+              <h2 className='d-flex justify-content-center list-header mt-3'>All Users</h2>
+            </div>
+        </Row>
         <Row>
           {
               this.state.users.map(user => (
@@ -55,14 +57,14 @@ export default class Home extends React.Component {
 */
 
 function User(props) {
-  const { username, profilePicUrl, location, position, availability } = props.user;
+  const { name, profilePicUrl, location, position, availability } = props.user;
 
   return (
   <Card className='mb-5' style={{ width: '25rem' }}>
-  <Card.Img src={profilePicUrl} />
+  <Card.Img className="user-list-pic" src={profilePicUrl} />
   <Card.Body>
         <div className='d-flex justify-content-between'>
-          <Card.Title className='username mb-1'>{username}</Card.Title>
+          <Card.Title className='name mb-1'>{name}</Card.Title>
           <a href="#" className="chat pe-2"><i className="fa fa-paper-plane text-dark"></i></a>
     </div>
     <Card.Title className='position mb-1'>{position}</Card.Title>
