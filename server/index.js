@@ -3,6 +3,7 @@ const db = require('./db');
 const express = require('express');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
+const uploadsMiddleware = require('./uploads-middleware');
 
 const app = express();
 
@@ -66,9 +67,10 @@ app.get('/api/users/:userId', (req, res, next) => {
 });
 
 // update the users data with a specific userId
-app.put('/api/users/:userId', (req, res, next) => {
+app.put('/api/users/:userId', uploadsMiddleware, (req, res, next) => {
   const { userId } = req.params;
-  const { profilePicUrl, name, position, location, availability } = req.body;
+  const { name, position, location, availability } = req.body;
+  const profilePicUrl = `/images/${req.file.filename}`;
 
   const sql = `
     update "users"
@@ -84,7 +86,7 @@ app.put('/api/users/:userId', (req, res, next) => {
   const params = [userId, profilePicUrl, name, position, location, availability];
   db.query(sql, params)
     .then(result => {
-      res.json(result.rows);
+      res.json(result.rows[0]);
     })
     .catch(err => next(err))
   ;

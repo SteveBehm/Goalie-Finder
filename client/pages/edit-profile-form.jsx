@@ -5,17 +5,18 @@ export default class EditProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
-      file: null,
-      name: null,
-      location: null,
-      position: null,
-      availability: null
+      isloading: true,
+      file: '',
+      name: '',
+      location: '',
+      position: '',
+      availability: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleImgClick = this.handleImgClick.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     this.fileInputRef = React.createRef();
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -23,7 +24,7 @@ export default class EditProfileForm extends React.Component {
     fetch('api/users/3')
       .then(res => res.json())
       .then(user => this.setState({
-        user,
+        isloading: false,
         file: user.profilePicUrl,
         name: user.name,
         location: user.location,
@@ -48,17 +49,44 @@ export default class EditProfileForm extends React.Component {
     });
   }
 
-  handleSubmit() {
+  /*
+    formData will be sent to the server as the body of the PUT method
+    Thanks to the multer package the image will also be sent to the server
+    the data we get back will then be used to set the state
+    the fileInputRef.current.value will be set to null in case the user
+    wants to switch the picture again
+  */
+  handleSubmit(event) {
+    event.preventDefault();
 
+    const formData = new FormData();
+
+    formData.append('name', this.state.name);
+    formData.append('position', this.state.position);
+    formData.append('location', this.state.location);
+    formData.append('availability', this.state.availability);
+    formData.append('image', this.fileInputRef.current.files[0]);
+
+    fetch('/api/users/3', {
+      method: 'PUT',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          file: data.profilePicUrl,
+          name: data.name,
+          location: data.location,
+          position: data.position,
+          availability: data.availability
+        });
+        this.fileInputRef.current.value = null;
+      })
+      .catch(err => console.error(err));
   }
 
-  // <div className='no-display'>
-  // <input type="file" onChange={this.handleChange} />
-  // <img src={this.state.file} />
-  // </div>
-
   render() {
-    if (!this.state.user) return null;
+    if (this.state.isloading === true) return null;
     return (
      <>
         <Container>
@@ -69,7 +97,7 @@ export default class EditProfileForm extends React.Component {
             <Card className='mb-5 p-0 border-0 form-color' style={{ width: '50rem' }}>
               <Card.Img className="edit-pic mb-3" onClick={this.handleImgClick} src={this.state.file} />
               <Card.Body className='p-0'>
-                <Form>
+                <Form onSubmit={this.handleSubmit}>
                   <input
                   className='no-display'
                   ref={this.fileInputRef}

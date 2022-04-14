@@ -20,7 +20,7 @@ export default class AppNavbar extends React.Component {
             </Nav>
             <Nav>
               <Nav.Link className='edit-profile' href="#edit-profile">Edit Profile</Nav.Link>
-              <Nav.Link className='sign-out' href="#sign-out">Sign Out</Nav.Link>
+              {/* <Nav.Link className='sign-out' href="#sign-out">Sign Out</Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
         </Container>
