@@ -86,6 +86,8 @@ export default class EditProfileForm extends React.Component {
   }
 
   render() {
+    // this is used to avoid rendering the screen before the users data
+    // has been loaded
     if (this.state.isloading === true) return null;
     return (
      <>
