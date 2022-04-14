@@ -12,8 +12,10 @@ export default class EditProfileForm extends React.Component {
       position: null,
       availability: null
     };
-    this.handleChange.bind(this);
-    this.handleImgClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleImgClick = this.handleImgClick.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
+    this.fileInputRef = React.createRef();
   }
 
   componentDidMount() {
@@ -30,7 +32,11 @@ export default class EditProfileForm extends React.Component {
       }));
   }
 
-  handleImgClick() {
+  handleImgClick(event) {
+    this.fileInputRef.current.click();
+  }
+
+  handleFileChange(event) {
     this.setState({
       file: URL.createObjectURL(event.target.files[0])
     });
@@ -40,6 +46,10 @@ export default class EditProfileForm extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+  }
+
+  handleSubmit() {
+
   }
 
   // <div className='no-display'>
@@ -60,6 +70,13 @@ export default class EditProfileForm extends React.Component {
               <Card.Img className="edit-pic mb-3" onClick={this.handleImgClick} src={this.state.file} />
               <Card.Body className='p-0'>
                 <Form>
+                  <input
+                  className='no-display'
+                  ref={this.fileInputRef}
+                  name='image'
+                  type="file"
+                  accept='.png, .jpg, .jpeg, .gif'
+                  onChange={this.handleFileChange} />
 
                   <Form.Group className="mb-3" controlId="name">
                     <Form.Control name="name" value={this.state.name} onChange={this.handleChange} type="text" placeholder="Name.." />

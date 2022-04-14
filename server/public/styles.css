@@ -92,3 +92,7 @@ ul {
   background-color: #292929;
   color: white;
 }
+
+.edit-pic:hover {
+  cursor: pointer;
+}
