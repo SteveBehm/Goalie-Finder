@@ -13,7 +13,7 @@ export default class Home extends React.Component {
 
   // get all users and set the state property of users to an array of users
   componentDidMount() {
-    fetch('/api/users')
+    fetch('/api/users/')
       .then(res => res.json())
       .then(users => this.setState({
         users
@@ -28,10 +28,10 @@ export default class Home extends React.Component {
   render() {
     return (
       <>
-      <div className='container'>
-          <h2 className='d-flex justify-content-center list-header mt-3'>All Users</h2>
-        </div>
-      <Container>
+      <div className='container no-display'>
+        <h2 className='d-flex justify-content-center list-header mt-3'>All Users</h2>
+      </div>
+      <Container className='no-display'>
         <Row>
           {
               this.state.users.map(user => (
@@ -59,7 +59,7 @@ function User(props) {
 
   return (
   <Card className='mb-5' style={{ width: '25rem' }}>
-  <Card.Img src={profilePicUrl} />
+  <Card.Img className="user-list-pic" src={profilePicUrl} />
   <Card.Body>
         <div className='d-flex justify-content-between'>
           <Card.Title className='name mb-1'>{name}</Card.Title>

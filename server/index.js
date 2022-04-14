@@ -43,19 +43,45 @@ app.get('/api/conversations', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/users/:userId', (req, res, next) => {
+// get a specific users profile based on their userId
+app.get('/api/users/:userId', (req, res, next) => {
   const { userId } = req.params;
 
   const sql = `
-    update "users"
-       set "name" = $2
-           "position" = $3
-           "location" = $4
-           "availability" = $5
-     where "userId" = $1
-    `;
+    select "profilePicUrl",
+           "name",
+           "position",
+           "location",
+           "availability"
+      from "users"
+     where "userId" = $1;
+  `;
 
   const params = [userId];
+  db.query(sql, params)
+    .then(result => {
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
+// update the users data with a specific userId
+app.put('/api/users/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  const { profilePicUrl, name, position, location, availability } = req.body;
+
+  const sql = `
+    update "users"
+       set "profilePicUrl" = $2,
+           "name"          = $3,
+           "position"      = $4,
+           "location"      = $5,
+           "availability"  = $6
+     where "userId" = $1
+ returning "profilePicUrl", "name", "position", "location", "availability";
+    `;
+
+  const params = [userId, profilePicUrl, name, position, location, availability];
   db.query(sql, params)
     .then(result => {
       res.json(result.rows);

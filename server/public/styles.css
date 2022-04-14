@@ -6,6 +6,10 @@ body {
   background-color: #292929;
 }
 
+.form-color {
+  background-color: #333;
+}
+
 .logo {
   font-size: 2rem;
   color: white;
@@ -49,8 +53,13 @@ ul {
   display: inline;
 }
 
-.card-img {
+.user-list-pic {
   height: 300px;
+  object-fit: cover;
+}
+
+.edit-pic {
+  height: 500px;
   object-fit: cover;
 }
 
@@ -68,4 +77,18 @@ ul {
   font-family:
     "Roboto Slab",
     serif;
+}
+
+.no-display {
+  display: none;
+}
+
+.form-control {
+  background-color: #292929;
+  color: white;
+}
+
+.form-select {
+  background-color: #292929;
+  color: white;
 }
