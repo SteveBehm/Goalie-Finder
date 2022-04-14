@@ -28,10 +28,12 @@ export default class Home extends React.Component {
   render() {
     return (
       <>
-      <div className='container no-display'>
-        <h2 className='d-flex justify-content-center list-header mt-3'>All Users</h2>
-      </div>
       <Container>
+        <Row>
+            <div>
+              <h2 className='d-flex justify-content-center list-header mt-3'>All Users</h2>
+            </div>
+        </Row>
         <Row>
           {
               this.state.users.map(user => (
