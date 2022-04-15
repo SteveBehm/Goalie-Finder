@@ -6,7 +6,8 @@ export default class SignIn extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      inavlidLogin: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,7 +16,8 @@ export default class SignIn extends React.Component {
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
+      [name]: value,
+      inavlidLogin: false
     });
   }
 
@@ -33,6 +35,10 @@ export default class SignIn extends React.Component {
       .then(result => {
         if (result.user && result.token) {
           this.props.handleSignIn(result);
+        } else {
+          this.setState({
+            inavlidLogin: true
+          });
         }
       });
   }
@@ -44,6 +50,9 @@ export default class SignIn extends React.Component {
             <h2 className='d-flex justify-content-center login-logo mt-3'>Goalie Finder</h2>
             <i id="hockey-puck" className="d-flex justify-content-center fa-solid fa-hockey-puck"></i>
             <Card className='mb-5 p-0 border-0 form-color' style={{ width: '25rem' }}>
+            <Card.Text className={this.state.inavlidLogin ? 'text-center text-warning' : 'd-none'}>
+              Invalid username and/or password
+            </Card.Text>
               <Card.Body className='p-0'>
                 <Form onSubmit={this.handleSubmit}>
 

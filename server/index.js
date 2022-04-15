@@ -142,11 +142,13 @@ app.get('/api/users/:userId', (req, res, next) => {
 app.put('/api/users/:userId', uploadsMiddleware, (req, res, next) => {
   const { userId } = req.params;
   const { name, position, location, availability } = req.body;
-  const profilePicUrl = `/images/${req.file.filename}`;
+  const profilePicUrl = req.file
+    ? `/images/${req.file.filename}`
+    : null;
 
   const sql = `
     update "users"
-       set "profilePicUrl" = $2,
+       set "profilePicUrl" = coalesce($2, "profilePicUrl"),
            "name"          = $3,
            "position"      = $4,
            "location"      = $5,

@@ -81,6 +81,7 @@ export default class EditProfileForm extends React.Component {
           availability: data.availability
         });
         this.fileInputRef.current.value = null;
+        window.location.hash = '#home';
       })
       .catch(err => console.error(err));
   }
