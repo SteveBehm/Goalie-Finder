@@ -71,7 +71,7 @@ export default class EditProfileForm extends React.Component {
       method: 'PUT',
       body: formData
     })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         this.setState({
           file: data.profilePicUrl,

@@ -1,6 +1,9 @@
 require('dotenv/config');
 const db = require('./db');
+const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 const express = require('express');
+const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
@@ -11,6 +14,48 @@ app.use(staticMiddleware);
 
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
+
+// user can sign in with their username and password
+app.post('/api/users/sign-in', (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    throw new ClientError(401, 'invalid login');
+  }
+
+  const sql = `
+    select "userId, "hashedPassword"
+      from  users
+     where "username" = $1
+  `;
+
+  const params = [username];
+  db.query(sql, params)
+    .then(result => {
+      const [user] = result.rows;
+      if (!user) {
+        throw new ClientError(401, 'invalid login');
+      } else {
+        argon2
+          .verify(user.hashedPassword, password)
+          .then(isMatching => {
+            if (!isMatching) {
+              throw new ClientError(401, 'invalid login');
+            } else {
+              const payloadObj = {
+                userId: user.userId,
+                username: username
+              };
+              const token = jwt.sign(payloadObj, process.env.TOKEN_SECRET);
+              const payloadToken = { token: token, user: payloadObj };
+              res.status(200).json(payloadToken);
+            }
+          })
+          .catch(err => next(err));
+      }
+    })
+    .catch(err => next(err));
+});
 
 // get all of the users data except the hashedPassword
 app.get('/api/users', (req, res, next) => {

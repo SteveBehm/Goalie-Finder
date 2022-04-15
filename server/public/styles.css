@@ -92,3 +92,21 @@ ul {
 .edit-pic:hover {
   cursor: pointer;
 }
+
+#hockey-puck {
+  color: white;
+  font-size: 20rem;
+}
+
+.login-logo {
+  font-size: 4rem;
+  color: white;
+  text-shadow:
+    -1px -1px 0 red,
+    1px -1px 0 red,
+    -1px 1px 0 red,
+    1px 1px 0 red;
+  font-family:
+    Ruda,
+    sans-serif;
+}
