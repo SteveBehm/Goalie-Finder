@@ -1,8 +1,9 @@
 import React from 'react';
 import Home from './pages/home';
-// import AppNavbar from './components/navbar';
+import AppNavbar from './components/navbar';
 import EditProfileForm from './pages/edit-profile-form';
 import SignIn from './pages/SignIn';
+import decodeToken from './lib/decode-token';
 import parseRoute from './lib/parse-route';
 
 export default class App extends React.Component {
@@ -10,8 +11,10 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       user: null,
+      isAuthorizing: true,
       route: parseRoute(window.location.hash)
     };
+    this.handleSignIn = this.handleSignIn.bind(this);
   }
 
   componentDidMount() {
@@ -21,33 +24,50 @@ export default class App extends React.Component {
         route: parseRoute(window.location.hash)
       });
     });
+    const token = window.localStorage.getItem('react-context-jwt');
+    const user = token ? decodeToken(token) : null;
+    this.setState({ user, isAuthorizing: false });
   }
 
   handleSignIn(result) {
     const { user, token } = result;
     window.localStorage.setItem('react-context-jwt', token);
     this.setState({
-      user
+      user,
+      route: parseRoute('#home')
     });
   }
 
   renderPage() {
     const { route } = this.state;
     if (route.path === '') {
-      return <Home />;
+      return <SignIn handleSignIn={this.handleSignIn} />;
+    }
+    if (route.path === 'home') {
+      return (
+      <>
+      <AppNavbar />
+      <Home />);
+      </>
+      );
     }
     if (route.path === 'edit-profile') {
       const editId = route.params.get('userId');
-      return <EditProfileForm editId={editId} />;
+      const userId = this.state.user.userId;
+      return (
+        <>
+          <AppNavbar />
+          <EditProfileForm editId={editId} userId={userId} />
+        </>
+      );
     }
   }
 
-  // <AppNavbar />
-  // { this.renderPage() } don't forget to put this back
   render() {
+    if (this.state.isAuthorizing) return null;
     return (
       <>
-        <SignIn />
+        {this.renderPage()}
       </>
     );
   }

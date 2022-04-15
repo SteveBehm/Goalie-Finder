@@ -21,13 +21,19 @@ export default class SignIn extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+
     fetch('/api/users/sign-in', {
       method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
       body: JSON.stringify(this.state)
     })
       .then(res => res.json())
       .then(result => {
-        // handleSignIn(result);
+        if (result.user && result.token) {
+          this.props.handleSignIn(result);
+        }
       });
   }
 
@@ -42,11 +48,11 @@ export default class SignIn extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
 
                   <Form.Group className="mb-3" controlId="username">
-                    <Form.Control name="username" type="text" placeholder="USERNAME.." onChange={this.handleChange}/>
+                    <Form.Control required name="username" type="text" placeholder="USERNAME.." onChange={this.handleChange}/>
                   </Form.Group>
 
                   <Form.Group className="mb-3" controlId="password">
-                  <Form.Control name="password" type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
+                  <Form.Control required name="password" type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
                   </Form.Group>
 
                   <div className='d-flex justify-content-center'>

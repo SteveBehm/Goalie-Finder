@@ -13,7 +13,7 @@ export default class AppNavbar extends React.Component {
     return (
       <Navbar collapseOnSelect className="dark-color" expand="lg" variant="dark">
         <Container>
-          <Navbar.Brand href="#" className='logo'>Goalie Finder</Navbar.Brand>
+          <Navbar.Brand href="#home" className='logo'>Goalie Finder</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">

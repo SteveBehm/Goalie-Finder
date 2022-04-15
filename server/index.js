@@ -15,6 +15,33 @@ app.use(staticMiddleware);
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
 
+// user can sign up with a username and password
+// app.post('/api/users/sign-up', (req, res, next) => {
+//   const { username, password } = req.body;
+//   if (!username || !password) {
+//     throw new ClientError(400, 'username and password are required fields');
+//   }
+
+//   argon2
+//     .hash(password)
+//     .then(hashed => {
+//       console.log(hashed);
+//       const sql = `
+//         insert into "users" ("username", "hashedPassword")
+//         values ($1, $2)
+//      returning "userId", "username"
+//       `;
+//       const params = [username, hashed];
+//       db.query(sql, params)
+//         .then(result => {
+//           const [newUser] = result.rows;
+//           res.status(201).json(newUser);
+//         })
+//         .catch(err => next(err));
+//     })
+//     .catch(err => next(err));
+// });
+
 // user can sign in with their username and password
 app.post('/api/users/sign-in', (req, res, next) => {
   const { username, password } = req.body;
@@ -24,9 +51,9 @@ app.post('/api/users/sign-in', (req, res, next) => {
   }
 
   const sql = `
-    select "userId, "hashedPassword"
-      from  users
-     where "username" = $1
+    select "userId", "hashedPassword"
+      from  "users"
+     where "username" = $1;
   `;
 
   const params = [username];
