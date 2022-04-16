@@ -67,8 +67,11 @@ export default class EditProfileForm extends React.Component {
     formData.append('availability', this.state.availability);
     formData.append('image', this.fileInputRef.current.files[0]);
 
-    fetch(`/api/users/${this.props.userId}`, {
+    fetch('/api/me', {
       method: 'PUT',
+      headers: {
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
+      },
       body: formData
     })
       .then(res => res.json())
