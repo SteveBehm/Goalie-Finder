@@ -21,7 +21,7 @@ export default class EditProfileForm extends React.Component {
 
   componentDidMount() {
     // this path will be changed later on when I have user accounts
-    fetch('api/users/3')
+    fetch(`api/users/${this.props.userId}`)
       .then(res => res.json())
       .then(user => this.setState({
         isloading: false,
@@ -67,11 +67,14 @@ export default class EditProfileForm extends React.Component {
     formData.append('availability', this.state.availability);
     formData.append('image', this.fileInputRef.current.files[0]);
 
-    fetch('/api/users/3', {
+    fetch('/api/me', {
       method: 'PUT',
+      headers: {
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
+      },
       body: formData
     })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         this.setState({
           file: data.profilePicUrl,
@@ -81,6 +84,7 @@ export default class EditProfileForm extends React.Component {
           availability: data.availability
         });
         this.fileInputRef.current.value = null;
+        window.location.hash = '#home';
       })
       .catch(err => console.error(err));
   }
@@ -101,7 +105,7 @@ export default class EditProfileForm extends React.Component {
               <Card.Body className='p-0'>
                 <Form onSubmit={this.handleSubmit}>
                   <input
-                  className='no-display'
+                  className='d-none'
                   ref={this.fileInputRef}
                   name='image'
                   type="file"
