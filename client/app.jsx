@@ -3,6 +3,7 @@ import Home from './pages/home';
 import AppNavbar from './components/navbar';
 import EditProfileForm from './pages/edit-profile-form';
 import SignIn from './pages/SignIn';
+import Chat from './pages/chat';
 import decodeToken from './lib/decode-token';
 import parseRoute from './lib/parse-route';
 
@@ -40,6 +41,8 @@ export default class App extends React.Component {
 
   renderPage() {
     const { route } = this.state;
+    const to = route.params.get('to');
+
     if (route.path === '') {
       return <SignIn handleSignIn={this.handleSignIn} />;
     }
@@ -61,13 +64,20 @@ export default class App extends React.Component {
         </>
       );
     }
+    if (route.path === 'chat') {
+      const userId = this.state.user.userId;
+      return (
+        <Chat userId={userId} to={to}/>
+      );
+    }
   }
 
+  // { this.renderPage() }
   render() {
     if (this.state.isAuthorizing) return null;
     return (
       <>
-        {this.renderPage()}
+      { this.renderPage() }
       </>
     );
   }

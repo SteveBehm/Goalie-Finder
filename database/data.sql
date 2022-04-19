@@ -84,5 +84,10 @@ insert into "conversations" (
   2,
   3,
   'Hi Guy, I am interested! What are the details?',
-  '2022-01-14'
-)
+  '2022-02-14'
+), (
+  3,
+  2,
+  'Awesome to hear!. We play on Wednesday nights between 6:00 and 8:00pm.',
+  '2022-03-14'
+);

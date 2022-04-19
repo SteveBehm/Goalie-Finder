@@ -20,7 +20,6 @@ export default class EditProfileForm extends React.Component {
   }
 
   componentDidMount() {
-    // this path will be changed later on when I have user accounts
     fetch(`api/users/${this.props.userId}`)
       .then(res => res.json())
       .then(user => this.setState({

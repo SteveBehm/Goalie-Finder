@@ -110,3 +110,42 @@ ul {
     Ruda,
     sans-serif;
 }
+
+.message {
+  background-color: #535252;
+}
+
+.chat {
+  border: 1px solid lightgray;
+  height: 75vh;
+}
+
+.form-control::placeholder {
+  color: white;
+}
+
+#send-msg {
+  border: 1px solid white;
+}
+
+.chat-body {
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.chat-title {
+  font-size: 2rem;
+  color: white;
+  text-shadow:
+    -1px -1px 0 red,
+    1px -1px 0 red,
+    -1px 1px 0 red,
+    1px 1px 0 red;
+  font-family:
+    Ruda,
+    sans-serif;
+}
