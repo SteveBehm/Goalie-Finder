@@ -71,18 +71,27 @@ insert into "users" (
 );
 
 insert into "conversations" (
+  "messageId",
   "senderId",
   "recipientId",
   "content",
   "sentAt"
 ) values (
+  1,
   3,
   2,
   'Hey Pat, we could use a goalie if you are free?',
   '2022-01-14'
 ), (
   2,
+  2,
   3,
   'Hi Guy, I am interested! What are the details?',
-  '2022-01-14'
-)
+  '2022-02-14'
+), (
+  3,
+  3,
+  2,
+  'Awesome to hear!. We play on Wednesday nights between 6:00 and 8:00pm.',
+  '2022-03-14'
+);

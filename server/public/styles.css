@@ -110,3 +110,29 @@ ul {
     Ruda,
     sans-serif;
 }
+
+.message {
+  background-color: #535252;
+}
+
+.chat {
+  border: 1px solid lightgray;
+  height: 75vh;
+}
+
+.form-control::placeholder {
+  color: white;
+}
+
+#send-msg {
+  border: 1px solid white;
+}
+
+.chat-body {
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}

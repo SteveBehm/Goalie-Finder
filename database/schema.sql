@@ -6,7 +6,8 @@ drop schema "public" cascade;
 
 create schema "public";
 
-CREATE TABLE "public"."users" (
+
+ CREATE TABLE "public"."users" (
 	"userId" serial NOT NULL,
 	"username" TEXT NOT NULL UNIQUE,
 	"name" TEXT NOT NULL,
@@ -24,12 +25,11 @@ CREATE TABLE "public"."users" (
 
 
 CREATE TABLE "public"."conversations" (
-	"conversationId" serial NOT NULL,
+	"messageId" serial NOT NULL,
 	"senderId" integer NOT NULL,
 	"recipientId" integer NOT NULL,
 	"content" TEXT NOT NULL,
-	"sentAt" timestamp with time zone NOT NULL,
-	CONSTRAINT "conversations_pk" PRIMARY KEY ("conversationId")
+	"sentAt" timestamp with time zone NOT NULL
 ) WITH (
   OIDS=FALSE
 );

@@ -65,8 +65,8 @@ function User(props) {
   <Card.Body>
         <div className='d-flex justify-content-between'>
           <Card.Title className='name mb-1'>{name}</Card.Title>
-          <a href="#" className="chat pe-2"><i className="fa fa-paper-plane text-dark"></i></a>
-    </div>
+          <a href="#chat" className="pe-2"><i className="fa fa-paper-plane text-dark"></i></a>
+        </div>
     <Card.Title className='position mb-1'>{position}</Card.Title>
     <Card.Title className='location'>{location}</Card.Title>
         <Card.Text className={availability === 'Available to play goalie' || availability === 'Looking for goalie'
