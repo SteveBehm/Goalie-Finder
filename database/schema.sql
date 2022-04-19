@@ -29,7 +29,8 @@ CREATE TABLE "public"."conversations" (
 	"senderId" integer NOT NULL,
 	"recipientId" integer NOT NULL,
 	"content" TEXT NOT NULL,
-	"sentAt" timestamp with time zone NOT NULL
+	"sentAt" timestamp with time zone NOT NULL,
+	CONSTRAINT "conversations_pk" PRIMARY KEY ("messageId")
 ) WITH (
   OIDS=FALSE
 );

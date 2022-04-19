@@ -7,7 +7,8 @@ export default class Chat extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      messages: []
+      messages: [],
+      newMsgContent: ''
     };
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,7 +19,8 @@ export default class Chat extends React.Component {
 
     // get all messages between the currentUser and the other user
     // if there is no message history no messages will be displayed
-    fetch('api/conversations/3/2', {
+    const to = this.props.to;
+    fetch(`api/conversations/${to}`, {
       method: 'GET',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
@@ -37,35 +39,34 @@ export default class Chat extends React.Component {
     // as a user types something in the input we want that to display
     // accordingly. An onChange prop will be needed on the input
     event.preventDefault();
-    const { name, value } = event.target;
+    const { value } = event.target;
     this.setState({
-      [name]: value
+      newMsgContent: value
     });
 
   }
 
   handleSubmit(event) {
-    // we need to take the message that is being sent and send it to our server
-    // so that we can store it in our database as the last message
-    // we also need the message to then be displayed in the chat box below the
-    // previous message and in the correct alignment/styling
-
-    // we then need to clear the currrent msgContent from the state
-    // change the state of current message so that we can display current message
-    // in our chat body(the value of that text content will be the current message)
-
     event.preventDefault();
+    const msgObj = {
+      recipientId: this.props.to,
+      content: this.state.newMsgContent
+    };
     fetch('api/conversations', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(msgObj)
     })
       .then(res => res.json())
       .then(result => {
-
+        // eslint-disable-next-line no-console
+        console.log(result);
+        this.setState({
+          newMsgContent: ''
+        });
       });
   }
 
@@ -75,11 +76,11 @@ export default class Chat extends React.Component {
 
     return (
       <>
-        <Container>
+        <Container className='chat-container'>
           <Row className="justify-content-center">
-            <Card className='chat p-0 form-color' style={{ width: '50rem' }}>
+            <Card className='chat p-0 form-color chat-card' style={{ width: '50rem' }}>
               <Card.Header className='d-flex justify-content-between align-items-center'>
-                <Card.Text className='text-light d-inline-block mb-0'>Patrick Roy</Card.Text>
+                <Card.Text className='text-light d-inline-block mb-0 chat-title'>Goalie Finder</Card.Text>
                 <a href="#home">
                   <i className="fas fa-times text-light"></i>
                 </a>
@@ -99,8 +100,8 @@ export default class Chat extends React.Component {
                 <form id="chat-form" onSubmit={this.handleSubmit}>
 
                   <div className="input-group">
-                    <input onChange={this.handleMessageChange} type="text" className="dark-input form-control" placeholder="Enter Message.." aria-label="Recipient's username" aria-describedby="send-msg" />
-                    <button className="btn btn-outline-secondary text-light" type="button" id="send-msg">SEND</button>
+                    <input required id='newMsgContent' onChange={this.handleMessageChange} type="text" name='newMsgContent' className="dark-input form-control" placeholder="Enter Message.." />
+                    <button className="btn btn-outline-secondary text-light" type="submit" id="send-msg">SEND</button>
                   </div>
 
                 </form>
@@ -120,18 +121,20 @@ export default class Chat extends React.Component {
 
     if not then the message content will go through the recipientMsg
     function
+
+    this way the messages are formatted correctly in our chat box
   */
 }
 
 function SenderMsg(props) {
-  const { content } = props.message;
+  const { content, username } = props.message;
 
   return (
   // senderId message content
     <>
       <div className="d-flex justify-content-end">
         <div className="text-light ps-2 me-3 mt-3">
-          GL
+        {username}
         </div>
       </div>
       <div className="d-flex justify-content-end mb-4 me-3">
@@ -147,13 +150,13 @@ function SenderMsg(props) {
 
 // recipientId message content
 function RecipientMsg(props) {
-  const { content } = props.message;
+  const { content, username } = props.message;
 
   return (
     <>
       <div className="d-flex justify-content-start">
         <div className="text-light ms-3">
-          PR
+          {username}
         </div>
       </div>
       <div className="d-flex mb-4 ms-3">

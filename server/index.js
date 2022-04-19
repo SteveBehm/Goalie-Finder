@@ -144,7 +144,7 @@ app.get('/api/conversations/:otherUserId', (req, res, next) => {
         on   "users"."userId" = "senderId"
        where ("recipientId" = $1 and "senderId" = $2)
           or ("recipientId" = $2 and "senderId" = $1)
-    order by "sentAt" desc
+    order by "sentAt" asc
       `;
 
   const params = [userId, otherUserId];
@@ -156,15 +156,16 @@ app.get('/api/conversations/:otherUserId', (req, res, next) => {
 
 // post a message to conversations
 app.post('/api/conversations', (req, res, next) => {
-  const { messageId, senderId, recipientId, content, sentAt } = req.body;
+  const senderId = req.user.userId;
+  const { recipientId, content } = req.body;
 
   const sql = `
-    insert into "conversations" ("messageId", "senderId", "recipientId", "content", "sentAt")
-    values ($1, $2, $3, $4, $5)
+    insert into "conversations" ("senderId", "recipientId", "content", "sentAt")
+    values ($1, $2, $3, now())
  returning *;
   `;
 
-  const params = [messageId, senderId, recipientId, content, sentAt];
+  const params = [senderId, recipientId, content];
   db.query(sql, params)
     .then(result => {
       res.json(result.rows[0]);

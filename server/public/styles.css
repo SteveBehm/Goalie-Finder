@@ -136,3 +136,16 @@ ul {
   width: 0;
   background: transparent;
 }
+
+.chat-title {
+  font-size: 2rem;
+  color: white;
+  text-shadow:
+    -1px -1px 0 red,
+    1px -1px 0 red,
+    -1px 1px 0 red,
+    1px 1px 0 red;
+  font-family:
+    Ruda,
+    sans-serif;
+}
