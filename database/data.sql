@@ -70,7 +70,7 @@ insert into "users" (
   'Looking for goalie'
 );
 
-insert into "conversations" (
+insert into "messages" (
   "senderId",
   "recipientId",
   "content",

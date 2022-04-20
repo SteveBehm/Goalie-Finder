@@ -1,5 +1,5 @@
 import React from 'react';
-// import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { Container, Row, Card } from 'react-bootstrap';
 
 export default class Chat extends React.Component {
@@ -12,15 +12,32 @@ export default class Chat extends React.Component {
     };
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.chatContainer = React.createRef();
   }
 
   componentDidMount() {
-    // const socket = io.connect('/');
+    const to = this.props.to;
+
+    this.socket = io.connect('/', {
+      auth: {
+        token: window.localStorage.getItem('react-context-jwt')
+      },
+      query: {
+        otherUserId: to
+      }
+    });
+
+    const { socket } = this;
+
+    socket.on('message', data => {
+      this.setState({
+        messages: this.state.messages.concat(data)
+      });
+    });
 
     // get all messages between the currentUser and the other user
     // if there is no message history no messages will be displayed
-    const to = this.props.to;
-    fetch(`api/conversations/${to}`, {
+    fetch(`api/messages/${to}`, {
       method: 'GET',
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
@@ -33,6 +50,12 @@ export default class Chat extends React.Component {
           isLoading: false
         });
       });
+  }
+
+  componentWillUnmount() {
+    // this will allow for a user to disconnect from the socket.io server
+    // when they leave that chat
+    this.socket.disconnect();
   }
 
   handleMessageChange(event) {
@@ -52,7 +75,7 @@ export default class Chat extends React.Component {
       recipientId: this.props.to,
       content: this.state.newMsgContent
     };
-    fetch('api/conversations', {
+    fetch('api/messages', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -70,6 +93,15 @@ export default class Chat extends React.Component {
       });
   }
 
+  componentDidUpdate() {
+    // this is helping the chat box scroll to the bottom to view the
+    // most recent message at all times
+    const scroll =
+      this.chatContainer.current.scrollHeight -
+      this.chatContainer.current.clientHeight;
+    this.chatContainer.current.scrollTo(0, scroll);
+  }
+
   render() {
     if (this.state.isLoading === true) return null;
     const userId = this.props.userId;
@@ -82,10 +114,10 @@ export default class Chat extends React.Component {
               <Card.Header className='d-flex justify-content-between align-items-center'>
                 <Card.Text className='text-light d-inline-block mb-0 chat-title'>Goalie Finder</Card.Text>
                 <a href="#home">
-                  <i className="fas fa-times text-light"></i>
+                  <i className="x fas fa-times text-light"></i>
                 </a>
               </Card.Header>
-              <Card.Body className='p-0 chat-body'>
+              <Card.Body className='p-0 chat-body' ref={this.chatContainer}>
                 {
                   this.state.messages.map(message => {
                     if (message.senderId === userId) {
@@ -100,7 +132,7 @@ export default class Chat extends React.Component {
                 <form id="chat-form" onSubmit={this.handleSubmit}>
 
                   <div className="input-group">
-                    <input required id='newMsgContent' onChange={this.handleMessageChange} type="text" name='newMsgContent' className="dark-input form-control" placeholder="Enter Message.." />
+                    <input required id='newMsgContent' value={this.state.newMsgContent} onChange={this.handleMessageChange} type="text" name='newMsgContent' className="dark-input form-control" placeholder="Enter Message.." />
                     <button className="btn btn-outline-secondary text-light" type="submit" id="send-msg">SEND</button>
                   </div>
 
