@@ -24,13 +24,13 @@ create schema "public";
 
 
 
-CREATE TABLE "public"."conversations" (
+CREATE TABLE "public"."messages" (
 	"messageId" serial NOT NULL,
 	"senderId" integer NOT NULL,
 	"recipientId" integer NOT NULL,
 	"content" TEXT NOT NULL,
 	"sentAt" timestamp with time zone NOT NULL,
-	CONSTRAINT "conversations_pk" PRIMARY KEY ("messageId")
+	CONSTRAINT "messages_pk" PRIMARY KEY ("messageId")
 ) WITH (
   OIDS=FALSE
 );
@@ -38,5 +38,5 @@ CREATE TABLE "public"."conversations" (
 
 
 
-ALTER TABLE "conversations" ADD CONSTRAINT "conversations_fk0" FOREIGN KEY ("senderId") REFERENCES "users"("userId");
-ALTER TABLE "conversations" ADD CONSTRAINT "conversations_fk1" FOREIGN KEY ("recipientId") REFERENCES "users"("userId");
+ALTER TABLE "messages" ADD CONSTRAINT "messages_fk0" FOREIGN KEY ("senderId") REFERENCES "users"("userId");
+ALTER TABLE "messages" ADD CONSTRAINT "messages_fk1" FOREIGN KEY ("recipientId") REFERENCES "users"("userId");

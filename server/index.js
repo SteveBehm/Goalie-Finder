@@ -9,11 +9,38 @@ const staticMiddleware = require('./static-middleware');
 const uploadsMiddleware = require('./uploads-middleware');
 const authorizationMiddleware = require('./authorization-middleware');
 const http = require('http');
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 
 const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
+
+io.use((socket, next) => {
+  const accessToken = socket.handshake.auth.token;
+
+  if (!accessToken) {
+    throw new ClientError(401, 'authentication required');
+  }
+
+  const payload = jwt.verify(accessToken, process.env.TOKEN_SECRET);
+
+  socket.user = payload;
+  next();
+});
+
+io.on('connection', socket => {
+  if (!socket.handshake.query.otherUserId) {
+    socket.disconnect();
+    return;
+  }
+  const otherUser = socket.handshake.query.otherUserId;
+  const currentUser = socket.user.userId;
+  const codeStr = `${currentUser}-${otherUser}`;
+  const codeArr = codeStr.split('-').sort();
+  const roomCode = codeArr.join('-');
+
+  socket.join(roomCode);
+});
 
 app.use(staticMiddleware);
 
@@ -132,15 +159,15 @@ app.put('/api/me', uploadsMiddleware, (req, res, next) => {
 });
 
 // get all messages between two users from conversations
-app.get('/api/conversations/:otherUserId', (req, res, next) => {
+app.get('/api/messages/:otherUserId', (req, res, next) => {
   const { otherUserId } = req.params;
   const userId = req.user.userId;
 
   const sql = `
-      select "conversations".*,
+      select "messages".*,
              "users"."username"
         from "users"
-        join "conversations"
+        join "messages"
         on   "users"."userId" = "senderId"
        where ("recipientId" = $1 and "senderId" = $2)
           or ("recipientId" = $2 and "senderId" = $1)
@@ -155,36 +182,41 @@ app.get('/api/conversations/:otherUserId', (req, res, next) => {
 });
 
 // post a message to conversations
-app.post('/api/conversations', (req, res, next) => {
+app.post('/api/messages', (req, res, next) => {
   const senderId = req.user.userId;
   const { recipientId, content } = req.body;
 
+  const otherUser = recipientId;
+  const currentUser = req.user.userId;
+  const codeStr = `${currentUser}-${otherUser}`;
+  const codeArr = codeStr.split('-').sort();
+  const roomCode = codeArr.join('-');
+
   const sql = `
-    insert into "conversations" ("senderId", "recipientId", "content", "sentAt")
+           with "insertedMsg" as (
+    insert into "messages" ("senderId", "recipientId", "content", "sentAt")
     values ($1, $2, $3, now())
- returning *;
+ returning *
+  )
+  select   "i".*,
+           "u"."username"
+     from  "insertedMsg" as "i"
+     join  "users" as "u"
+       on  "u"."userId" = "i"."senderId"
   `;
 
   const params = [senderId, recipientId, content];
   db.query(sql, params)
     .then(result => {
       res.json(result.rows[0]);
+      io.to(roomCode).emit('message', result.rows[0]);
     })
     .catch(err => next(err));
 });
 
-// chat code
-io.on('connection', socket => {
-  // console.log(`user connected: ${socket.id}`);
-
-  socket.on('disconnect', () => {
-    // console.log('user disconnected', socket.id);
-  });
-});
-
 app.use(errorMiddleware);
 
-server.listen(process.env.PORT, () => {
+httpServer.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`server is running on port ${process.env.PORT}`);
+  console.log(`express server is running on port ${process.env.PORT}`);
 });
