@@ -29,10 +29,10 @@ io.use((socket, next) => {
 });
 
 io.on('connection', socket => {
-  // if (!socket.handshake.query.otherUserId) {
-  //   socket.disconnect();
-  //   return;
-  // }
+  if (!socket.handshake.query.otherUserId) {
+    socket.disconnect();
+    return;
+  }
   const otherUser = socket.handshake.query.otherUserId;
   const currentUser = socket.user.userId;
   const codeStr = `${currentUser}-${otherUser}`;

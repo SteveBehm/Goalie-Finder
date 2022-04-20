@@ -93,13 +93,17 @@ export default class Chat extends React.Component {
       });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     // this is helping the chat box scroll to the bottom to view the
-    // most recent message at all times
-    const scroll =
-      this.chatContainer.current.scrollHeight -
-      this.chatContainer.current.clientHeight;
-    this.chatContainer.current.scrollTo(0, scroll);
+    // most recent message
+    // the guard is there to update only when the messages array is
+    // updated
+    if (this.state.messages !== prevState.messages) {
+      const scroll =
+        this.chatContainer.current.scrollHeight -
+        this.chatContainer.current.clientHeight;
+      this.chatContainer.current.scrollTo(0, scroll);
+    }
   }
 
   render() {
