@@ -37,6 +37,20 @@ CREATE TABLE "public"."messages" (
 
 
 
+CREATE TABLE "public"."notifications" (
+	"notificationId" serial NOT NULL,
+	"senderId" integer NOT NULL,
+	"recipientId" integer NOT NULL,
+	CONSTRAINT "notifications_pk" PRIMARY KEY ("notificationId")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
 
 ALTER TABLE "messages" ADD CONSTRAINT "messages_fk0" FOREIGN KEY ("senderId") REFERENCES "users"("userId");
 ALTER TABLE "messages" ADD CONSTRAINT "messages_fk1" FOREIGN KEY ("recipientId") REFERENCES "users"("userId");
+
+ALTER TABLE "notifications" ADD CONSTRAINT "notifications_fk0" FOREIGN KEY ("senderId") REFERENCES "users"("userId");
+ALTER TABLE "notifications" ADD CONSTRAINT "notifications_fk1" FOREIGN KEY ("recipientId") REFERENCES "users"("userId");

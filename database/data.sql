@@ -91,3 +91,14 @@ insert into "messages" (
   'Awesome to hear!. We play on Wednesday nights between 6:00 and 8:00pm.',
   '2022-03-14'
 );
+
+insert into "notifications" (
+  "senderId",
+  "recipientId"
+) values (
+  2,
+  3
+), (
+  1,
+  3
+)
