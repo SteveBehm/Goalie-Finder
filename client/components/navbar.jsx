@@ -10,12 +10,6 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 // it has a logo and hamburger menu when seen in mobile few
 // the hamburger menu drops down to see the two links
 export default class AppNavbar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      notifications: this.props.notifications
-    };
-  }
 
   render() {
     const popover = (
