@@ -13,6 +13,7 @@ export default class App extends React.Component {
     this.state = {
       user: null,
       isAuthorizing: true,
+      notifications: [],
       route: parseRoute(window.location.hash)
     };
     this.handleSignIn = this.handleSignIn.bind(this);
@@ -37,10 +38,21 @@ export default class App extends React.Component {
       user,
       route: parseRoute('#home')
     });
+    // get request for notifications
+    fetch(`api/notifications/${user.userId}`, {
+      method: 'GET',
+      headers: {
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
+      }
+    })
+      .then(res => res.json())
+      .then(notifications => this.setState({
+        notifications
+      }));
   }
 
   renderPage() {
-    const { route } = this.state;
+    const { route, notifications } = this.state;
     const to = route.params.get('to');
 
     if (route.path === '') {
@@ -49,7 +61,7 @@ export default class App extends React.Component {
     if (route.path === 'home') {
       return (
       <>
-      <AppNavbar />
+      <AppNavbar notifications={notifications}/>
       <Home />);
       </>
       );
@@ -59,7 +71,7 @@ export default class App extends React.Component {
       const userId = this.state.user.userId;
       return (
         <>
-          <AppNavbar />
+          <AppNavbar notifications={notifications}/>
           <EditProfileForm editId={editId} userId={userId} />
         </>
       );

@@ -130,6 +130,25 @@ app.get('/api/users/:userId', (req, res, next) => {
 
 app.use(authorizationMiddleware);
 
+// get all notifications and username from notifications table
+app.get('/api/notifications/:recipientId', (req, res, next) => {
+  const { recipientId } = req.params;
+
+  const sql = `
+    select "notifications".*,
+           "users"."username"
+      from "notifications"
+      join "users"
+        on "users"."userId" = "senderId"
+     where "recipientId" = $1;
+    `;
+
+  const params = [recipientId];
+  db.query(sql, params)
+    .then(result => res.json(result.rows))
+    .catch(err => next(err));
+});
+
 // update the users data with a specific userId
 app.put('/api/me', uploadsMiddleware, (req, res, next) => {
   const { userId } = req.user;
