@@ -149,6 +149,44 @@ app.get('/api/notifications/:recipientId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+// delete a notification from other user from the notifications table
+app.delete('/api/notifications/:senderId', (req, res) => {
+  const senderId = req.params.senderId;
+  const senderIdNum = parseInt(senderId);
+
+  if (!Number.isInteger(senderIdNum) || senderIdNum <= 0) {
+    res.status(400).json({
+      error: 'senderId needs to be a positive integer > 0.'
+    });
+    return;
+  }
+
+  const sql = `
+    delete from "notifications"
+          where "senderId" = $1
+      returning *;
+  `;
+
+  const params = [senderId];
+  db.query(sql, params)
+    .then(result => {
+      const notification = (result.rows[0]);
+      if (!notification) {
+        res.status(404).json({
+          error: `cannot find notification with senderId ${senderId}`
+        });
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({
+        error: 'an unexpected error occurred'
+      });
+    });
+});
+
 // update the users data with a specific userId
 app.put('/api/me', uploadsMiddleware, (req, res, next) => {
   const { userId } = req.user;
