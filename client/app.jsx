@@ -17,6 +17,7 @@ export default class App extends React.Component {
       route: parseRoute(window.location.hash)
     };
     this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleUsernameClick = this.handleUsernameClick.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +52,32 @@ export default class App extends React.Component {
       }));
   }
 
+  handleUsernameClick(event) {
+    const senderId = event.target.getAttribute('data-id');
+    fetch(`/api/notifications/${senderId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Access-Token': window.localStorage.getItem('react-context-jwt')
+      }
+    });
+
+    /*
+    loop through the notifications array
+    if the senderId of an array element is equal to senderId
+    take it out of the array
+    */
+    const notificationsArr = this.state.notifications;
+    for (let i = 0; i < notificationsArr.length; i++) {
+      if (notificationsArr[i].senderId === parseInt(senderId)) {
+        const targetIndex = notificationsArr.indexOf(notificationsArr.i);
+        notificationsArr.splice(targetIndex, 1);
+      }
+    }
+    this.setState({
+      notifications: notificationsArr
+    });
+  }
+
   renderPage() {
     const { route, notifications } = this.state;
     const to = route.params.get('to');
@@ -61,7 +88,7 @@ export default class App extends React.Component {
     if (route.path === 'home') {
       return (
       <>
-      <AppNavbar notifications={notifications}/>
+      <AppNavbar notifications={notifications} to={to} handleClick={this.handleUsernameClick}/>
       <Home />);
       </>
       );
@@ -71,7 +98,7 @@ export default class App extends React.Component {
       const userId = this.state.user.userId;
       return (
         <>
-          <AppNavbar notifications={notifications}/>
+          <AppNavbar notifications={notifications} to={to} handleClick={this.handleUsernameClick}/>
           <EditProfileForm editId={editId} userId={userId} />
         </>
       );

@@ -12,12 +12,13 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 export default class AppNavbar extends React.Component {
 
   render() {
+    const usernameClick = this.props.handleClick;
     const popover = (
       <Popover id='popover-basic'>
         {
           this.props.notifications.map(notification => (
             <Popover.Header key={notification.senderId}>
-              <NotificationUsernames notification={notification} />
+              <a onClick={usernameClick} data-id={notification.senderId} href={`#chat?to=${notification.senderId}`} className='text-dark usernames'>{notification.username}</a>
             </Popover.Header>
           ))
         }
@@ -31,7 +32,7 @@ export default class AppNavbar extends React.Component {
           <OverlayTrigger trigger="click" placement="right" overlay={popover}>
             <a className='notification-popover'>
               <i className="text-light fa-regular fa-bell"></i>
-              <div className='notification-circle'></div>
+              <div className={(this.props.notifications.length > 0) ? 'notification-circle' : 'd-none'}></div>
             </a>
           </OverlayTrigger>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -46,11 +47,4 @@ export default class AppNavbar extends React.Component {
       </Navbar>
     );
   }
-}
-
-function NotificationUsernames(props) {
-  const { username } = props.notification;
-  return (
-    <a className='text-dark usernames'>{username}</a>
-  );
 }
