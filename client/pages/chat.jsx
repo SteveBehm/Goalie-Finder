@@ -18,7 +18,7 @@ export default class Chat extends React.Component {
   componentDidMount() {
     const to = this.props.to;
 
-    this.socket = io.connect('/', {
+    this.socket = io.connect('/chat', {
       auth: {
         token: window.localStorage.getItem('react-context-jwt')
       },
