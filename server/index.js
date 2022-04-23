@@ -47,7 +47,7 @@ chat.on('connection', socket => {
 });
 
 // allows users to be connected when not in the chat room
-const notifications = io.of('notifications');
+const notifications = io.of('/notifications');
 notifications.use(authorizationCheckCode);
 
 app.use(staticMiddleware);
@@ -278,8 +278,8 @@ app.post('/api/messages', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       res.json(result.rows[0]);
-      io.to(roomCode).emit('message', result.rows[0]);
-      io.in(roomCode)
+      chat.to(roomCode).emit('message', result.rows[0]);
+      chat.in(roomCode)
         .fetchSockets()
         .then(sockets => {
           const isInRoom = sockets.some(socket => socket.user.userId === recipientId);

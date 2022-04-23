@@ -32,13 +32,9 @@ export default class App extends React.Component {
     const user = token ? decodeToken(token) : null;
     this.setState({ user, isAuthorizing: false });
 
-    const to = this.state.route.params.get('to');
     this.socket = io.connect('/notifications', {
       auth: {
         token: window.localStorage.getItem('react-context-jwt')
-      },
-      query: {
-        otherUserId: to
       }
     });
 

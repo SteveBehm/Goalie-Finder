@@ -85,8 +85,6 @@ export default class Chat extends React.Component {
     })
       .then(res => res.json())
       .then(result => {
-        // eslint-disable-next-line no-console
-        console.log(result);
         this.setState({
           newMsgContent: ''
         });
