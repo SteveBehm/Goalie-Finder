@@ -32,19 +32,21 @@ export default class App extends React.Component {
     const user = token ? decodeToken(token) : null;
     this.setState({ user, isAuthorizing: false });
 
-    this.socket = io.connect('/notifications', {
-      auth: {
-        token: window.localStorage.getItem('react-context-jwt')
-      }
-    });
-
-    const { socket } = this;
-
-    socket.on('notification', data => {
-      this.setState({
-        notifications: this.state.notifications.concat(data)
+    if (token) {
+      this.socket = io.connect('/notifications', {
+        auth: {
+          token: window.localStorage.getItem('react-context-jwt')
+        }
       });
-    });
+
+      const { socket } = this;
+
+      socket.on('notification', data => {
+        this.setState({
+          notifications: this.state.notifications.concat(data)
+        });
+      });
+    }
   }
 
   handleSignIn(result) {
@@ -65,6 +67,12 @@ export default class App extends React.Component {
       .then(notifications => this.setState({
         notifications
       }));
+
+    this.socket = io.connect('/notifications', {
+      auth: {
+        token: window.localStorage.getItem('react-context-jwt')
+      }
+    });
   }
 
   handleUsernameClick(event) {
