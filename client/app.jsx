@@ -33,7 +33,7 @@ export default class App extends React.Component {
     this.setState({ user, isAuthorizing: false });
 
     if (token) {
-      this.socket = io.connect('/notifications', {
+      this.socket = io('/notifications', {
         auth: {
           token: window.localStorage.getItem('react-context-jwt')
         }
