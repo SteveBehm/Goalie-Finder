@@ -15,7 +15,7 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 
-io.use((socket, next) => {
+const authorizationCheckCode = (socket, next) => {
   const accessToken = socket.handshake.auth.token;
 
   if (!accessToken) {
@@ -26,9 +26,12 @@ io.use((socket, next) => {
 
   socket.user = payload;
   next();
-});
+};
 
-io.on('connection', socket => {
+// allows users to establish a real-time connection in the chat room
+const chat = io.of('/chat');
+chat.use(authorizationCheckCode);
+chat.on('connection', socket => {
   if (!socket.handshake.query.otherUserId) {
     socket.disconnect();
     return;
@@ -40,7 +43,12 @@ io.on('connection', socket => {
   const roomCode = codeArr.join('-');
 
   socket.join(roomCode);
+
 });
+
+// allows users to be connected when not in the chat room
+const notifications = io.of('/notifications');
+notifications.use(authorizationCheckCode);
 
 app.use(staticMiddleware);
 
@@ -131,6 +139,7 @@ app.get('/api/users/:userId', (req, res, next) => {
 app.use(authorizationMiddleware);
 
 // get all notifications and username from notifications table
+// the recipientId will be the user that is signed in
 app.get('/api/notifications/:recipientId', (req, res, next) => {
   const { recipientId } = req.params;
 
@@ -239,6 +248,9 @@ app.get('/api/messages/:otherUserId', (req, res, next) => {
 });
 
 // post a message to conversations
+// post a notification to the notifications table if the recipient user is not in the chat room
+// update the notifications array in realtime if the recipient user is not in the chat room
+// but still on the web application
 app.post('/api/messages', (req, res, next) => {
   const senderId = req.user.userId;
   const { recipientId, content } = req.body;
@@ -266,7 +278,40 @@ app.post('/api/messages', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       res.json(result.rows[0]);
-      io.to(roomCode).emit('message', result.rows[0]);
+      chat.to(roomCode).emit('message', result.rows[0]);
+      chat.in(roomCode)
+        .fetchSockets()
+        .then(sockets => {
+          const isInRoom = sockets.some(socket => socket.user.userId === recipientId);
+          // if isInRoom is true then the recipient is in the chat
+          if (!isInRoom) {
+
+            const sql = `
+                     with "insertedNotification" as (
+              insert into "notifications" ("senderId", "recipientId")
+                   values ($1, $2)
+                returning *
+            )
+                   select "i".*,
+                          "u"."username"
+                     from "insertedNotification" as "i"
+                     join "users" as "u"
+                       on "u"."userId" = "i"."senderId"
+            `;
+
+            const params = [senderId, recipientId];
+            db.query(sql, params)
+              .then(result => {
+                const sockets = notifications.sockets;
+                sockets.forEach((value, key) => {
+                  if (value.user.userId === parseInt(recipientId)) {
+                    value.emit('notification', result.rows[0]);
+                  }
+                });
+              })
+              .catch(err => next(err));
+          }
+        });
     })
     .catch(err => next(err));
 });

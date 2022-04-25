@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn';
 import Chat from './pages/chat';
 import decodeToken from './lib/decode-token';
 import parseRoute from './lib/parse-route';
+import { io } from 'socket.io-client';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -30,6 +31,23 @@ export default class App extends React.Component {
     const token = window.localStorage.getItem('react-context-jwt');
     const user = token ? decodeToken(token) : null;
     this.setState({ user, isAuthorizing: false });
+
+    if (token) {
+      this.socket = io('/notifications', {
+        auth: {
+          token: window.localStorage.getItem('react-context-jwt')
+        },
+        forceNew: true
+      });
+
+      const { socket } = this;
+
+      socket.on('notification', data => {
+        this.setState({
+          notifications: this.state.notifications.concat(data)
+        });
+      });
+    }
   }
 
   handleSignIn(result) {
@@ -50,6 +68,13 @@ export default class App extends React.Component {
       .then(notifications => this.setState({
         notifications
       }));
+
+    this.socket = io.connect('/notifications', {
+      auth: {
+        token: window.localStorage.getItem('react-context-jwt')
+      },
+      forceNew: true
+    });
   }
 
   handleUsernameClick(event) {
