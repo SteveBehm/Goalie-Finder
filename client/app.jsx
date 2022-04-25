@@ -36,7 +36,8 @@ export default class App extends React.Component {
       this.socket = io('/notifications', {
         auth: {
           token: window.localStorage.getItem('react-context-jwt')
-        }
+        },
+        forceNew: true
       });
 
       const { socket } = this;
@@ -71,7 +72,8 @@ export default class App extends React.Component {
     this.socket = io.connect('/notifications', {
       auth: {
         token: window.localStorage.getItem('react-context-jwt')
-      }
+      },
+      forceNew: true
     });
   }
 

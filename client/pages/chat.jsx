@@ -24,7 +24,8 @@ export default class Chat extends React.Component {
       },
       query: {
         otherUserId: to
-      }
+      },
+      forceNew: true
     });
 
     const { socket } = this;
