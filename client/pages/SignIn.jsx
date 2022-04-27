@@ -71,6 +71,9 @@ export default class SignIn extends React.Component {
                   </div>
 
                 </Form>
+                <div className='d-flex justify-content-end pt-2 fs-5'>
+                  <a href='#sign-up' role='button' className='text-decoration-none'>Sign Up</a>
+                </div>
               </Card.Body>
             </Card>
           </Row>
