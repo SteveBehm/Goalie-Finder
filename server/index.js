@@ -55,6 +55,37 @@ app.use(staticMiddleware);
 const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
 
+// user can sign up
+app.post('/api/auth/sign-up', uploadsMiddleware, (req, res, next) => {
+  const { username, password, name, position, location, availability } = req.body;
+  const profilePicUrl = req.file
+    ? req.file.location
+    : '/images/placeholder-goalie.png';
+
+  if (!username || !password) {
+    throw new ClientError(400, 'username and password are required fields');
+  }
+
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+        insert into "users" ("username", "hashedPassword", "name", "profilePicUrl", "location", "position", "availability", "joinedAt")
+                     values ($1, $2, $3, $4, $5, $6, $7, now())
+                  returning "userId", "username", "joinedAt"
+      `;
+
+      const params = [username, hashedPassword, name, profilePicUrl, position, location, availability];
+      db.query(sql, params)
+        .then(result => {
+          const [user] = result.rows;
+          res.status(201).json(user);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
 // user can sign in with their username and password
 app.post('/api/users/sign-in', (req, res, next) => {
   const { username, password } = req.body;
@@ -201,7 +232,7 @@ app.put('/api/me', uploadsMiddleware, (req, res, next) => {
   const { userId } = req.user;
   const { name, position, location, availability } = req.body;
   const profilePicUrl = req.file
-    ? `/images/${req.file.filename}`
+    ? req.file.location
     : null;
 
   const sql = `

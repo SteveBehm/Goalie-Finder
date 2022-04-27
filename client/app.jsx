@@ -3,6 +3,7 @@ import Home from './pages/home';
 import AppNavbar from './components/navbar';
 import EditProfileForm from './pages/edit-profile-form';
 import SignIn from './pages/SignIn';
+import SignUp from './pages/sign-up';
 import Chat from './pages/chat';
 import decodeToken from './lib/decode-token';
 import parseRoute from './lib/parse-route';
@@ -132,6 +133,11 @@ export default class App extends React.Component {
       const userId = this.state.user.userId;
       return (
         <Chat userId={userId} to={to}/>
+      );
+    }
+    if (route.path === 'sign-up') {
+      return (
+        <SignUp />
       );
     }
   }

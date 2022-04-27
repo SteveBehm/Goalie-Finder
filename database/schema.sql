@@ -13,7 +13,7 @@ create schema "public";
 	"name" TEXT NOT NULL,
 	"hashedPassword" TEXT NOT NULL,
 	"joinedAt" timestamp with time zone NOT NULL,
-	"profilePicUrl" TEXT NOT NULL,
+	"profilePicUrl" TEXT,
 	"location" TEXT NOT NULL,
 	"position" TEXT NOT NULL,
 	"availability" TEXT NOT NULL,
