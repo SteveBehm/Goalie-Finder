@@ -56,22 +56,22 @@ export default class SignIn extends React.Component {
               <Card.Body className='p-0'>
                 <Form onSubmit={this.handleSubmit}>
 
-                  <Form.Group className="mb-3" controlId="username">
-                    <Form.Control required name="username" type="text" placeholder="USERNAME.." onChange={this.handleChange}/>
+                <Form.Group className="mb-3 d-flex justify-content-center" controlId="username-sign-in">
+                    <Form.Control required className='shadow-sm' name="username" type="text" placeholder="USERNAME.." onChange={this.handleChange}/>
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="password">
-                  <Form.Control required name="password" type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
+                <Form.Group className="mb-3 d-flex justify-content-center" controlId="password-sign-in">
+                  <Form.Control required className='shadow-sm' name="password" type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
                   </Form.Group>
 
                   <div className='d-flex justify-content-center'>
-                    <Button className="save-btn" variant="light" type="submit" style={{ width: '25rem' }}>
+                    <Button className="login-btn border-0 save-btn shadow-sm" type="submit">
                       LOGIN
                     </Button>
                   </div>
 
                 </Form>
-                <div className='d-flex justify-content-end pt-2 fs-5'>
+                <div className='sign-up-div d-flex justify-content-end pt-2 me-4 fs-5'>
                   <a href='#sign-up' role='button' className='text-decoration-none'>Sign Up</a>
                 </div>
               </Card.Body>

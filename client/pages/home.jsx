@@ -60,18 +60,18 @@ function User(props) {
   const { name, profilePicUrl, location, position, availability, userId } = props.user;
 
   return (
-  <Card className='mb-5' style={{ width: '25rem' }}>
+  <Card className='mb-5 shadow dark-color' style={{ width: '25rem' }}>
   <Card.Img className="user-list-pic" src={profilePicUrl} />
   <Card.Body>
         <div className='d-flex justify-content-between'>
           <Card.Title className='name mb-1'>{name}</Card.Title>
-          <a href={`#chat?to=${userId}`} className="pe-2"><i className="fa fa-paper-plane text-dark"></i></a>
+          <a href={`#chat?to=${userId}`} className="pe-2"><i className="fa fa-paper-plane text-light"></i></a>
         </div>
     <Card.Title className='position mb-1'>{position}</Card.Title>
     <Card.Title className='location'>{location}</Card.Title>
         <Card.Text className={availability === 'Available to play goalie' || availability === 'Looking for goalie'
-          ? 'availability text-center success'
-          : 'availability text-center danger'}>{availability}</Card.Text>
+          ? 'availability text-center good'
+          : 'availability text-center bad'}>{availability}</Card.Text>
   </Card.Body>
   </Card>
   );
