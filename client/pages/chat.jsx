@@ -115,7 +115,7 @@ export default class Chat extends React.Component {
       <>
         <Container className='chat-container'>
           <Row className="justify-content-center">
-            <Card className='chat p-0 form-color chat-card' style={{ width: '50rem' }}>
+            <Card className='chat p-0 form-color chat-card shadow-lg' style={{ width: '50rem' }}>
               <Card.Header className='d-flex justify-content-between align-items-center'>
                 <Card.Text className='text-light d-inline-block mb-0 chat-title'>Goalie Finder</Card.Text>
                 <a href="#home">
@@ -138,7 +138,7 @@ export default class Chat extends React.Component {
 
                   <div className="input-group">
                     <input required id='newMsgContent' value={this.state.newMsgContent} onChange={this.handleMessageChange} type="text" name='newMsgContent' className="dark-input form-control" placeholder="Enter Message.." />
-                    <button className="btn btn-outline-secondary text-light" type="submit" id="send-msg">SEND</button>
+                    <button className="btn text-light" type="submit" id="send-msg">SEND</button>
                   </div>
 
                 </form>
@@ -176,7 +176,7 @@ function SenderMsg(props) {
       </div>
       <div className="d-flex justify-content-end mb-4 me-3">
         <div className="ps-5">
-          <div className="message card d-inline-block text-light border border-light p-2 text-end">
+          <div className="message card d-inline-block text-light shadow p-2 text-end">
             {content}
           </div>
         </div>
@@ -198,7 +198,7 @@ function RecipientMsg(props) {
       </div>
       <div className="d-flex mb-4 ms-3">
         <div className="pe-5">
-          <div className="message card d-inline-block text-light border border-light p-2">
+          <div className="message card d-inline-block text-light shadow p-2">
             {content}
           </div>
         </div>

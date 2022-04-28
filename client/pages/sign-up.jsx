@@ -85,7 +85,7 @@ export default class SignUp extends React.Component {
           </Row>
           <Row className="d-flex justify-content-center">
             <Card className='mb-5 p-0 border-0 form-color' style={{ width: '50rem' }}>
-              <Card.Img className="edit-pic mb-3" onClick={this.handleImgClick} src={this.state.file} />
+              <Card.Img className="edit-pic mb-3 shadow" onClick={this.handleImgClick} src={this.state.file} />
               <Card.Body className='p-0'>
                 <Form onSubmit={this.handleSubmit}>
                   <input
@@ -96,11 +96,11 @@ export default class SignUp extends React.Component {
                     accept='.png, .jpg, .jpeg, .gif'
                     onChange={this.handleFileChange} />
 
-                  <Form.Group className="mb-3" controlId="name">
+                  <Form.Group className="mb-3 shadow-sm" controlId="name">
                     <Form.Control required name="name" value={this.state.name} onChange={this.handleChange} type="text" placeholder="Name.." />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="position">
+                  <Form.Group className="mb-3 shadow-sm" controlId="position">
                     <Form.Select required name="position" value={this.state.position} onChange={this.handleChange}>
                       <option >Position Preference</option>
                       <option >Ice goalie</option>
@@ -112,11 +112,11 @@ export default class SignUp extends React.Component {
                     </Form.Select>
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="location">
+                  <Form.Group className="mb-3 shadow-sm" controlId="location">
                     <Form.Control required name="location" value={this.state.location} type="text" placeholder="location" onChange={this.handleChange} />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="availability">
+                  <Form.Group className="mb-3 shadow-sm" controlId="availability">
                     <Form.Select required name="availability" value={this.state.availability} onChange={this.handleChange}>
                       <option >What do you need?</option>
                       <option >Available to play goalie</option>
@@ -126,16 +126,16 @@ export default class SignUp extends React.Component {
                     </Form.Select>
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="username">
+                  <Form.Group className="mb-3 shadow-sm" controlId="username">
                     <Form.Control required name="username" type='text' value={this.state.username} placeholder="USERNAME.." onChange={this.handleChange} />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="password">
+                  <Form.Group className="mb-3 shadow-sm" controlId="password">
                     <Form.Control required name="password" value={this.state.password} type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
                   </Form.Group>
 
                   <div className='d-flex justify-content-end'>
-                    <Button className="save-btn" variant="danger" type="submit">
+                    <Button className="save-btn shadow-sm" variant="danger" type="submit">
                       SAVE
                     </Button>
                   </div>

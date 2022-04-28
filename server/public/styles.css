@@ -2,12 +2,21 @@ body {
   background-color: #333;
 }
 
+.login-btn {
+  background-color: #9e9e9e;
+}
+
 .dark-color {
   background-color: #292929;
 }
 
 .form-color {
   background-color: #333;
+}
+
+.form-control,
+.form-select {
+  border: none;
 }
 
 .logo {
@@ -29,7 +38,7 @@ body {
 }
 
 .list-header {
-  color: white;
+  color: #9e9e9e;
   font-family:
     Ruda,
     sans-serif;
@@ -49,8 +58,16 @@ ul {
 }
 
 .name {
-  color: #343a40;
+  color: white;
   display: inline;
+}
+
+.good {
+  color: #79f45a;
+}
+
+.bad {
+  color: #eb2e53;
 }
 
 .user-list-pic {
@@ -61,14 +78,6 @@ ul {
 .edit-pic {
   height: 500px;
   object-fit: cover;
-}
-
-.success {
-  color: green;
-}
-
-.danger {
-  color: red;
 }
 
 .availability,
@@ -91,15 +100,17 @@ ul {
 
 .edit-pic:hover {
   cursor: pointer;
+  border: 2px solid #eb2e53;
+  box-shadow: 0 0 10px #333;
 }
 
 #hockey-puck {
   color: white;
-  font-size: 20rem;
+  font-size: 18rem;
 }
 
 .login-logo {
-  font-size: 4rem;
+  font-size: 3.5rem;
   color: white;
   text-shadow:
     -1px -1px 0 red,
@@ -116,16 +127,11 @@ ul {
 }
 
 .chat {
-  border: 1px solid lightgray;
   height: 75vh;
 }
 
 .form-control::placeholder {
   color: white;
-}
-
-#send-msg {
-  border: 1px solid white;
 }
 
 .chat-body {
