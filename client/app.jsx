@@ -2,7 +2,7 @@ import React from 'react';
 import Home from './pages/home';
 import AppNavbar from './components/navbar';
 import EditProfileForm from './pages/edit-profile-form';
-import SignIn from './pages/SignIn';
+import SignIn from './pages/sign-in';
 import SignUp from './pages/sign-up';
 import Chat from './pages/chat';
 import decodeToken from './lib/decode-token';
