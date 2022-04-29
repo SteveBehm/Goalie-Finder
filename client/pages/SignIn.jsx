@@ -13,6 +13,13 @@ export default class SignIn extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      username: 'guylafleur1',
+      password: 'jhwgugwfkfkb'
+    });
+  }
+
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({
@@ -57,11 +64,11 @@ export default class SignIn extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
 
                 <Form.Group className="mb-3 d-flex justify-content-center" controlId="username-sign-in">
-                    <Form.Control required className='shadow-sm' name="username" type="text" placeholder="USERNAME.." onChange={this.handleChange}/>
+                    <Form.Control required className='shadow-sm' name="username" type="text" placeholder="USERNAME.." value={this.state.username} onChange={this.handleChange}/>
                   </Form.Group>
 
                 <Form.Group className="mb-3 d-flex justify-content-center" controlId="password-sign-in">
-                  <Form.Control required className='shadow-sm' name="password" type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
+                  <Form.Control required className='shadow-sm' name="password" type="password" placeholder="PASSWORD.." value={this.state.password} onChange={this.handleChange} />
                   </Form.Group>
 
                   <div className='d-flex justify-content-center'>
