@@ -67,8 +67,8 @@ cp .env.example .env
   * This is because users will store their images via S3
   * You can create an account [here](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)
 ```shell
-process.env.AWS_ACCESS_KEY_ID=yourkey
-process.env.AWS_SECRET_ACCESS_KEY=yourkey
+AWS_ACCESS_KEY_ID=yourkey
+AWS_SECRET_ACCESS_KEY=yourkey
 AWS_S3_BUCKET=yourbucketname
 ```
 
