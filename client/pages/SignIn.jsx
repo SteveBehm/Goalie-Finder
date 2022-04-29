@@ -7,10 +7,18 @@ export default class SignIn extends React.Component {
     this.state = {
       username: '',
       password: '',
-      inavlidLogin: false
+      inavlidLogin: false,
+      error: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      username: 'guylafleur1',
+      password: 'jhwgugwfkfkb'
+    });
   }
 
   handleChange(event) {
@@ -40,28 +48,38 @@ export default class SignIn extends React.Component {
             inavlidLogin: true
           });
         }
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
       });
   }
 
   render() {
     return (
-      <Container className="container-center justify-content-center d-flex align-items-center">
+      <>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.error ? '' : 'd-none'}>Sorry, we were unable to send your data to the server. Please try again</div>
+        </div>
+        <Container className="container-center justify-content-center d-flex align-items-center">
           <Row className="absolute d-flex justify-content-center">
             <h2 className='d-flex justify-content-center login-logo mt-3'>Goalie Finder</h2>
             <i id="hockey-puck" className="d-flex justify-content-center fa-solid fa-hockey-puck"></i>
             <Card className='mb-5 p-0 border-0 form-color' style={{ width: '25rem' }}>
-            <Card.Text className={this.state.inavlidLogin ? 'text-center text-warning' : 'd-none'}>
-              Invalid username and/or password
-            </Card.Text>
+              <Card.Text className={this.state.inavlidLogin ? 'text-center text-warning' : 'd-none'}>
+                Invalid username and/or password
+              </Card.Text>
               <Card.Body className='p-0'>
                 <Form onSubmit={this.handleSubmit}>
 
-                <Form.Group className="mb-3 d-flex justify-content-center" controlId="username-sign-in">
-                    <Form.Control required className='shadow-sm' name="username" type="text" placeholder="USERNAME.." onChange={this.handleChange}/>
+                  <Form.Group className="mb-3 d-flex justify-content-center" controlId="username-sign-in">
+                    <Form.Control required className='shadow-sm' name="username" type="text" placeholder="USERNAME.." value={this.state.username} onChange={this.handleChange} />
                   </Form.Group>
 
-                <Form.Group className="mb-3 d-flex justify-content-center" controlId="password-sign-in">
-                  <Form.Control required className='shadow-sm' name="password" type="password" placeholder="PASSWORD.." onChange={this.handleChange} />
+                  <Form.Group className="mb-3 d-flex justify-content-center" controlId="password-sign-in">
+                    <Form.Control required className='shadow-sm' name="password" type="password" placeholder="PASSWORD.." value={this.state.password} onChange={this.handleChange} />
                   </Form.Group>
 
                   <div className='d-flex justify-content-center'>
@@ -77,7 +95,8 @@ export default class SignIn extends React.Component {
               </Card.Body>
             </Card>
           </Row>
-      </Container>
+        </Container>
+      </>
     );
   }
 }

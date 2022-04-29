@@ -7,7 +7,10 @@ export default class Home extends React.Component {
 
     // the state is set so that users is an empty array until we fetch the users data
     this.state = {
-      users: []
+      users: [],
+      error: false,
+      notifyError: false,
+      notifyDelete: false
     };
   }
 
@@ -17,7 +20,14 @@ export default class Home extends React.Component {
       .then(res => res.json())
       .then(users => this.setState({
         users
-      }));
+      })
+      )
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
+      });
   }
 
   /*
@@ -28,6 +38,15 @@ export default class Home extends React.Component {
   render() {
     return (
       <>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.error ? '' : 'd-none'}>Sorry, we were unable to get user data. Please refresh and try again</div>
+        </div>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.notifyError ? '' : 'd-none'}>Sorry, we were unable to get notifications. Please refresh and try again</div>
+        </div>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.notifyDelete ? '' : 'd-none'}>Sorry, we were unable to delete the notification. Please try again</div>
+        </div>
       <Container>
         <Row>
             <div>
