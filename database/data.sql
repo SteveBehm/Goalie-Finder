@@ -35,32 +35,32 @@ insert into "users" (
   'Ice player',
   'Looking for goalie'
 ), (
-  'ChrisOsgood30',
-  'Christopher Osgood',
+  'thedominator',
+  'Dominik Hasek',
   '$argon2i$v=19$m=4096,t=3,p=1$RKXYtyrfD50PzxKEt+z/Gg$WX9Pvla3rfiHC34H/KeY/3lASzPtyy4YT7ixVWYHZDs',
   '2022-01-10',
-  '/images/chris-osgood.jpeg',
-  'Detroit, MI',
-  'Goalie for either',
-  'Unavailable to play goalie'
-), (
-  'PatrickRoy30',
-  'Pat Roy',
-  '$argon2i$v=19$m=4096,t=3,p=1$jhnDycTPZI9/8jRv8v3tPA$6eJhixuixcfd8OlqyUP2RlkziH1PE2criZIE6JQGR0M',
-  '2022-01-12',
-  '/images/patrick-roy.jpeg',
-  'Denver, CO',
+  '/images/hasek-goalie.jpeg',
+  'Buffalo, NY',
   'Goalie for either',
   'Available to play goalie'
 ), (
-  'GuyLafleur1',
-  'Guyski Lafleur',
+  'RonnieHex27',
+  'Ron Hextall',
+  '$argon2i$v=19$m=4096,t=3,p=1$jhnDycTPZI9/8jRv8v3tPA$6eJhixuixcfd8OlqyUP2RlkziH1PE2criZIE6JQGR0M',
+  '2022-01-12',
+  '/images/ron-hextall.jpeg',
+  'Philadelphia, PA',
+  'Goalie for either',
+  'Unavailable to play goalie'
+), (
+  'zamboniGoalie',
+  'David Ayres',
   '$argon2i$v=19$m=4096,t=3,p=1$zuVXO31ORG6zKRniYMQ7kw$H/rt38DkyIZKGldbEr79+5cPIVbheUlcdFoWn4EARAc',
   '2022-01-14',
-  '/images/guy-lafleur.jpeg',
-  'Montreal, QC',
-  'Ice player',
-  'Looking for goalie'
+  '/images/emergency-goalie.jpeg',
+  'Toronto, ON',
+  'Ice goalie',
+  'Available to play goalie'
 );
 
 insert into "messages" (
