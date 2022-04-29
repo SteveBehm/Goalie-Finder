@@ -6,6 +6,7 @@ export default class EditProfileForm extends React.Component {
     super(props);
     this.state = {
       isloading: true,
+      error: false,
       file: '',
       name: '',
       location: '',
@@ -87,7 +88,12 @@ export default class EditProfileForm extends React.Component {
         this.fileInputRef.current.value = null;
         window.location.hash = '#home';
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          error: true
+        });
+      });
   }
 
   render() {
@@ -96,6 +102,9 @@ export default class EditProfileForm extends React.Component {
     if (this.state.isloading === true) return null;
     return (
      <>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.error ? '' : 'd-none'}>Sorry, we were unable to get your data. Please try again</div>
+        </div>
         <Container>
           <Row>
             <h2 className='d-flex justify-content-center list-header mt-3'>Edit Profile</h2>

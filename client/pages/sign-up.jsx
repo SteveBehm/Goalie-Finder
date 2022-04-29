@@ -11,7 +11,8 @@ export default class SignUp extends React.Component {
       location: '',
       position: '',
       availability: '',
-      file: ''
+      file: '',
+      error: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -73,12 +74,18 @@ export default class SignUp extends React.Component {
       })
       .catch(err => {
         console.error(err);
+        this.setState({
+          error: true
+        });
       });
   }
 
   render() {
     return (
       <>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.error ? '' : 'd-none'}>Sorry, we were unable to send your data to the server. Please try again</div>
+        </div>
         <Container>
           <Row>
             <h2 className='d-flex justify-content-center list-header mt-3'>Create Profile</h2>

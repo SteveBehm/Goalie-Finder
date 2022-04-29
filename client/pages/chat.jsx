@@ -6,6 +6,8 @@ export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      fetchError: false,
+      sendError: false,
       isLoading: true,
       connected: false,
       messages: [],
@@ -55,6 +57,12 @@ export default class Chat extends React.Component {
           messages: messages,
           isLoading: false
         });
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          fetchError: true
+        });
       });
   }
 
@@ -99,6 +107,12 @@ export default class Chat extends React.Component {
         this.setState({
           newMsgContent: ''
         });
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          sendError: true
+        });
       });
   }
 
@@ -122,7 +136,13 @@ export default class Chat extends React.Component {
     return (
       <>
         <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.fetchError ? '' : 'd-none'}>Sorry, we were unable to get your previous messages. Please try again</div>
+        </div>
+        <div className='d-flex justify-content-center mt-3 text-light'>
           <div className={this.state.connected ? 'd-none' : ''}>You are unable to connect to the chat, please try again</div>
+        </div>
+        <div className='d-flex justify-content-center mt-3 text-light'>
+          <div className={this.state.sendError ? '' : 'd-none'}>Sorry, we were unable to send your message. Please try again</div>
         </div>
         <Container className='chat-container'>
           <Row className="justify-content-center">

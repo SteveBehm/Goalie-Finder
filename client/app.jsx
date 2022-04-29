@@ -68,7 +68,13 @@ export default class App extends React.Component {
       .then(res => res.json())
       .then(notifications => this.setState({
         notifications
-      }));
+      }))
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          notifyError: true
+        });
+      });
 
     this.socket = io.connect('/notifications', {
       auth: {
@@ -85,7 +91,13 @@ export default class App extends React.Component {
       headers: {
         'X-Access-Token': window.localStorage.getItem('react-context-jwt')
       }
-    });
+    })
+      .catch(err => {
+        console.error(err);
+        this.setState({
+          notifyDelete: true
+        });
+      });
 
     /*
     loop through the notifications array
