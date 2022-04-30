@@ -25,7 +25,8 @@
     {
       "selector": "meta",
       "rules": {
-        "invalid-attr": false
+        "invalid-attr": false,
+        "required-attr": false
       }
     },
     {
