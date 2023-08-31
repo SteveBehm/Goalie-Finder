@@ -11,10 +11,11 @@
     "dev:client": "webpack serve --mode=development",
     "dev:server": "nodemon server/index.js",
     "db:import": "bash scripts/db-import.sh",
+    "prod:db:import": "sh database/prod-import.sh",
     "prepare": "husky install"
   },
   "dependencies": {
-    "argon2": "^0.28.5",
+    "argon2": "^0.28.7",
     "aws-sdk": "^2.1122.0",
     "bootstrap": "^5.1.3",
     "dotenv": "^16.0.0",
